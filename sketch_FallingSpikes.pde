@@ -14,7 +14,6 @@ void setup() {
 PVector PlayerPos;
 PVector PlayerVel;
 PVector PlayerAcc;
-float deltaTime = 1.0f/60.0f;
 
 ArrayList<Spike> spikes;
 
@@ -26,11 +25,17 @@ void  mouseDragged() {
 
 
 void draw() {
-  background(0);
-  ellipse(PlayerPos.x, PlayerPos.y, 50, 50);
+  background(130);
+  fill(0);
+  noStroke();
   
   for (Spike s : spikes) {
     s.update();
     s.render();
   }
+  
+   ellipse(PlayerPos.x, PlayerPos.y, 50, 50);
+   
+   fill(255);
+   rect(0, height - 35, width, 35);
 }
