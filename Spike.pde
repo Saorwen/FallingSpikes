@@ -2,7 +2,7 @@ class Spike
 {
   PVector SpikePos;
   float initialVelocity;
-  float accelaration = 0.2;
+  float accelaration = 0.1;
   int score = 0;
   
   Spike() {
@@ -31,4 +31,13 @@ class Spike
     SpikePos.y = -10;
     initialVelocity = random(1, 2);
   }
+
+ void collide() {
+ // if (millis() > lastTimeCheck + timeInterval) {
+ //   lastTimeCheck = millis();
+    if (dist(PlayerPos.x, PlayerPos.y, SpikePos.x, SpikePos.y) < 25) {
+         PlayerHealth --;
+       }
+ //  }
+ }
 }
