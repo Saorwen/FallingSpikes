@@ -1,6 +1,8 @@
 float lastTimeCheck;
 float timeInterval;
 int PlayerHealth;
+float GreenShift;
+float BlueShift;
 
 void setup() {
   size(400, 600);
@@ -10,8 +12,10 @@ void setup() {
   PlayerPos = new PVector(100, 540);
   PlayerVel = new PVector(0, 0);
   PlayerAcc = new PVector(0, 0);
-  PlayerHealth = 500;
-  
+  PlayerHealth = 100;
+  GreenShift = (PlayerHealth * 2.5);
+  BlueShift = (PlayerHealth * 2.5);
+ 
   int spikeWave = 10;
   spikes = new ArrayList<Spike>();
   for (int i = 0; i < spikeWave; i++) {
@@ -22,7 +26,6 @@ void setup() {
 PVector PlayerPos;
 PVector PlayerVel;
 PVector PlayerAcc;
-//color bloodSplat = new color(255, 255 -(PlayerHealth * 5), 255 - (PlayerHealth * 5));
 ArrayList<Spike> spikes;
 
 void  mouseDragged() {
@@ -44,9 +47,8 @@ void draw() {
   }
   
    ellipse(PlayerPos.x, PlayerPos.y, 50, 50);
-   
-   
-   fill(255);
+     
+   fill(255,GreenShift, BlueShift);
    rect(0, height - 35, width, 35);
    
    println(PlayerHealth);

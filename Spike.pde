@@ -37,6 +37,8 @@ class Spike
  //   lastTimeCheck = millis();
     if (dist(PlayerPos.x, PlayerPos.y, SpikePos.x, SpikePos.y) < 25) {
          PlayerHealth --;
+         GreenShift = (PlayerHealth * 2.5);
+         BlueShift = (PlayerHealth * 2.5);
        }
  //  }
  }
