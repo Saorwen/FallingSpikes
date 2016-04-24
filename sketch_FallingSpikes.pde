@@ -3,6 +3,8 @@ float timeInterval;
 int PlayerHealth;
 float GreenShift;
 float BlueShift;
+int screen;
+boolean tryAgain = false;
 
 void setup() {
   size(400, 600);
@@ -21,6 +23,14 @@ void setup() {
   for (int i = 0; i < spikeWave; i++) {
     spikes.add(new Spike());
   }
+ 
+  if (!tryAgain) {
+    screen = 1;
+  }
+ else {
+   screen = 2;
+ } 
+  
 }
 
 PVector PlayerPos;
@@ -41,15 +51,35 @@ void draw() {
   noStroke();
   
   for (Spike s : spikes) {
-    s.update();
+   if (screen == 1) {
+      s.update();
+    }
     s.render();
     s.collide();
-  }
-  
+}
    ellipse(PlayerPos.x, PlayerPos.y, 50, 50);
      
    fill(255,GreenShift, BlueShift);
    rect(0, height - 35, width, 35);
    
    println(PlayerHealth);
+   if(PlayerHealth < 0) {
+     tryAgain = true;
+     setup();
+   }
+   
+   if (screen == 2) {
+     fill(255, 0, 0, 150);
+     rect(0, 0, width, height);
+     
+     fill(255);
+     textSize(40);
+     text("Retry?", width/3, height/2);
+     
+     if (keyPressed) {
+       if (key == ' ') {
+         screen = 1;
+       }
+     }
+   }
 }
