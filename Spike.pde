@@ -35,7 +35,7 @@ class Spike
  void collide() {
  // if (millis() > lastTimeCheck + timeInterval) {
  //   lastTimeCheck = millis();
-    if (dist(PlayerPos.x, PlayerPos.y, SpikePos.x, SpikePos.y) < 25) {
+    if (dist(PlayerPos.x, PlayerPos.y, SpikePos.x, SpikePos.y) < 30) {
          PlayerHealth --;
          GreenShift = (PlayerHealth * 2.5);
          BlueShift = (PlayerHealth * 2.5);

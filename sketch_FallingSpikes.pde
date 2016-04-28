@@ -1,36 +1,33 @@
 float lastTimeCheck;
 float timeInterval;
+float endTime;
 int PlayerHealth;
 float GreenShift;
 float BlueShift;
+int textAlpha = 255;
+int fadeRate = 2;
 int screen;
 boolean tryAgain = false;
 
 void setup() {
   size(400, 600);
   lastTimeCheck = millis();
-  timeInterval = 300.0f;
+  timeInterval = 4000.0f;
   
   PlayerPos = new PVector(100, 540);
   PlayerVel = new PVector(0, 0);
   PlayerAcc = new PVector(0, 0);
-  PlayerHealth = 100;
-  GreenShift = (PlayerHealth * 2.5);
-  BlueShift = (PlayerHealth * 2.5);
+  PlayerHealth = 25;
+  GreenShift = (PlayerHealth * 10);
+  BlueShift = (PlayerHealth * 10);
  
   int spikeWave = 10;
   spikes = new ArrayList<Spike>();
   for (int i = 0; i < spikeWave; i++) {
     spikes.add(new Spike());
   }
- 
-  if (!tryAgain) {
     screen = 1;
-  }
- else {
-   screen = 2;
- } 
-  
+
 }
 
 PVector PlayerPos;
@@ -44,19 +41,30 @@ void  mouseDragged() {
   }
 }
 
+void textFade() {
+  if (millis() > lastTimeCheck + timeInterval) {
+    lastTimeCheck = millis();
+    fadeRate *= -1;
+   }
+
+  textAlpha += fadeRate;
+}
+
 
 void draw() {
   background(130);
   fill(0);
   noStroke();
+  textFade();
   
   for (Spike s : spikes) {
    if (screen == 1) {
       s.update();
+      s.collide();
     }
     s.render();
-    s.collide();
-}
+
+ }
    ellipse(PlayerPos.x, PlayerPos.y, 50, 50);
      
    fill(255,GreenShift, BlueShift);
@@ -65,7 +73,7 @@ void draw() {
    println(PlayerHealth);
    if(PlayerHealth < 0) {
      tryAgain = true;
-     setup();
+     screen = 2;
    }
    
    if (screen == 2) {
@@ -76,9 +84,13 @@ void draw() {
      textSize(40);
      text("Retry?", width/3, height/2);
      
+     fill(255, 255, 255, textAlpha);
+     textSize(15);
+     text("Hit Space To Try Again", width * 0.3, height * 0.75);
+     
      if (keyPressed) {
        if (key == ' ') {
-         screen = 1;
+         setup();
        }
      }
    }
