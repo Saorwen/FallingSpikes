@@ -5,10 +5,11 @@ float endTime;
 int PlayerHealth;
 float GreenShift;
 float BlueShift;
-int textAlpha = 255;
+int textAlpha = 0;
 int fadeRate = 2;
 int screen;
-//boolean tryAgain = false;
+boolean start = true;
+PImage startScreen;
 
 void setup() {
   size(400, 600);
@@ -16,6 +17,7 @@ void setup() {
   timeInterval = 2000.0f;
   startTime = millis();
   endTime = 0.0f;
+  startScreen = loadImage("StartScreen.png");
   
   PlayerPos = new PVector(100, 540);
   PlayerVel = new PVector(0, 0);
@@ -29,7 +31,12 @@ void setup() {
   for (int i = 0; i < spikeWave; i++) {
     spikes.add(new Spike());
   }
-    screen = 1;
+  if (start == false) {
+      screen = 1;
+  }
+  else {
+    screen = 0;
+  }
 
 }
 
@@ -67,10 +74,12 @@ void draw() {
     s.render();
 
  }
+ if (screen == 1 || screen == 2) {
    ellipse(PlayerPos.x, PlayerPos.y, 50, 50);
      
    fill(255,GreenShift, BlueShift);
    rect(0, height - 35, width, 35);
+ }
    
    println(PlayerHealth);
    if(PlayerHealth < 0) {
@@ -98,6 +107,21 @@ void draw() {
      
      if (keyPressed) {
        if (key == ' ') {
+         setup();
+       }
+     }
+   }
+   
+   if (screen == 0) {
+     image(startScreen, 0, 0, width, height);
+     textSize(40);
+     textFade();
+     fill(255, 255, 255, textAlpha);
+     text("Hit Space", width/4, height - 170);
+     
+     if (keyPressed) {
+       if (key == ' ') {
+         start = false;
          setup();
        }
      }
