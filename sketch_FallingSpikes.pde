@@ -6,7 +6,10 @@ int PlayerHealth;
 float GreenShift;
 float BlueShift;
 int textAlpha = 0;
-int fadeRate = 2;
+int textAlpha2 = 100;
+int fadeRate = 4;
+float playerSpeed = 1;
+float playerAcc = 0.2;
 int screen;
 boolean start = true;
 PImage startScreen;
@@ -46,8 +49,12 @@ PVector PlayerAcc;
 ArrayList<Spike> spikes;
 
 void  mouseDragged() {
+  playerSpeed = 1;
   if (mouseX <= (width - 25) && mouseX >= 25) {
     PlayerPos.x = mouseX;
+    if (mouseY <= height - 75 && mouseY >= height - 200) {
+      PlayerPos.y = mouseY;
+    }
   }
 }
 
@@ -58,6 +65,7 @@ void textFade() {
    }
 
   textAlpha += fadeRate;
+  textAlpha2 += fadeRate;
 }
 
 
@@ -76,12 +84,17 @@ void draw() {
  }
  if (screen == 1 || screen == 2) {
    ellipse(PlayerPos.x, PlayerPos.y, 50, 50);
+   if (PlayerPos.y <= height - 65) {
+     PlayerPos.y += playerSpeed;
+     playerSpeed += playerAcc;
+   }
+   
      
    fill(255,GreenShift, BlueShift);
    rect(0, height - 35, width, 35);
  }
    
-   println(PlayerHealth);
+ //  println(PlayerHealth);
    if(PlayerHealth < 0) {
      if (screen == 1) {
       endTime = millis() - startTime;
@@ -116,7 +129,7 @@ void draw() {
      image(startScreen, 0, 0, width, height);
      textSize(40);
      textFade();
-     fill(255, 255, 255, textAlpha);
+     fill(255, 255, 255, textAlpha2);
      text("Hit Space", width/4, height - 170);
      
      if (keyPressed) {
