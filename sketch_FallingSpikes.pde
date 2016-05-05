@@ -1,16 +1,17 @@
 float lastTimeCheck;
 float timeInterval;
+float timeInterval2;
 float startTime;
 float endTime;
 int PlayerHealth;
 float GreenShift;
 float BlueShift;
-int textAlpha = 0;
-int textAlpha2 = 100;
+int textAlpha = 100;
 int fadeRate = 4;
 float playerSpeed = 1;
 float playerAcc = 0.2;
 int screen;
+int spikeWave;
 boolean start = true;
 PImage startScreen;
 
@@ -18,6 +19,7 @@ void setup() {
   size(400, 600);
   lastTimeCheck = millis();
   timeInterval = 2000.0f;
+  timeInterval2 = 5000.0f;
   startTime = millis();
   endTime = 0.0f;
   startScreen = loadImage("StartScreen.png");
@@ -29,11 +31,12 @@ void setup() {
   GreenShift = (PlayerHealth * 10);
   BlueShift = (PlayerHealth * 10);
  
-  int spikeWave = 10;
+  spikeWave = 10;
   spikes = new ArrayList<Spike>();
   for (int i = 0; i < spikeWave; i++) {
     spikes.add(new Spike());
   }
+  
   if (start == false) {
       screen = 1;
   }
@@ -49,6 +52,7 @@ PVector PlayerAcc;
 ArrayList<Spike> spikes;
 
 void  mouseDragged() {
+ if (screen == 1) {
   playerSpeed = 1;
   if (mouseX <= (width - 25) && mouseX >= 25) {
     PlayerPos.x = mouseX;
@@ -56,6 +60,7 @@ void  mouseDragged() {
       PlayerPos.y = mouseY;
     }
   }
+ }
 }
 
 void textFade() {
@@ -65,9 +70,17 @@ void textFade() {
    }
 
   textAlpha += fadeRate;
-  textAlpha2 += fadeRate;
 }
 
+/*
+void waves() {
+    if (millis() > lastTimeCheck + timeInterval2) {
+      lastTimeCheck = millis();
+      spikeWave ++;
+      println(spikeWave);
+    }
+}
+*/
 
 void draw() {
   background(130);
@@ -87,6 +100,8 @@ void draw() {
    if (PlayerPos.y <= height - 65) {
      PlayerPos.y += playerSpeed;
      playerSpeed += playerAcc;
+     
+   //  waves();
    }
    
      
@@ -94,7 +109,6 @@ void draw() {
    rect(0, height - 35, width, 35);
  }
    
- //  println(PlayerHealth);
    if(PlayerHealth < 0) {
      if (screen == 1) {
       endTime = millis() - startTime;
@@ -129,7 +143,7 @@ void draw() {
      image(startScreen, 0, 0, width, height);
      textSize(40);
      textFade();
-     fill(255, 255, 255, textAlpha2);
+     fill(255, 255, 255, textAlpha);
      text("Hit Space", width/4, height - 170);
      
      if (keyPressed) {

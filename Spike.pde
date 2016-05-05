@@ -2,8 +2,7 @@ class Spike
 {
   PVector SpikePos;
   float initialVelocity;
-  float accelaration = 0.1;
-  int score = 0;
+  float accelaration = 0.15;
   
   Spike() {
     SpikePos = new PVector(random(width), -10);
@@ -15,7 +14,6 @@ class Spike
     initialVelocity += accelaration;
     if (SpikePos.y >= height + 20) {
       repeat();
-      score++;
     }
   }
   
@@ -33,13 +31,10 @@ class Spike
   }
 
  void collide() {
- // if (millis() > lastTimeCheck + timeInterval) {
- //   lastTimeCheck = millis();
     if (dist(PlayerPos.x, PlayerPos.y, SpikePos.x, SpikePos.y) < 30) {
          PlayerHealth --;
          GreenShift = (PlayerHealth * 2.5);
          BlueShift = (PlayerHealth * 2.5);
        }
- //  }
- }
+   }
 }
